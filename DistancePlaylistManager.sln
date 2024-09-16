@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamWebApi", "SteamWebApi\SteamWebApi.csproj", "{17434C2C-FEAF-4D49-8CEE-06ACCF8EE3F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17434C2C-FEAF-4D49-8CEE-06ACCF8EE3F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17434C2C-FEAF-4D49-8CEE-06ACCF8EE3F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17434C2C-FEAF-4D49-8CEE-06ACCF8EE3F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17434C2C-FEAF-4D49-8CEE-06ACCF8EE3F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6F0A8F7-4EE8-42BC-9BD4-2932ABCB9461}
+	EndGlobalSection
+EndGlobal
