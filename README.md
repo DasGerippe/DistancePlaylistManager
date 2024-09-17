@@ -28,9 +28,11 @@ I'm also open to feature requests, though I wont promise implementing any of the
 
 ### Preparation
 
+Downloads can be found on the [Releases](https://github.com/DasGerippe/DistancePlaylistManager/releases) page.
+
 If you don't want to install anything, download the self-contained DistancePlaylistManager.exe for your operating system and run it.
 
-**OR**
+***OR***
 
 If you don't have it installed already, download and install the [.NET 8 runtime](https://dotnet.microsoft.com/en-us/download). Next, download the DistancePlaylistManager.zip, extract it to any location, and execute the DistancePlaylistManager.exe.
 
