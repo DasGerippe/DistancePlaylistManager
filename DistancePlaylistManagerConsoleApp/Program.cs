@@ -35,7 +35,7 @@ namespace DistancePlaylistManagerConsoleApp
             DefaultPathsProvider pathsProvider = new DefaultPathsProvider();
             string playlistFilePath = pathsProvider.GetPlaylistFilePath(playlist.Name);
             await using FileStream fileStream = File.Open(playlistFilePath, FileMode.Create, FileAccess.Write, FileShare.Read);
-            serializer.Serialize(playlist, fileStream);
+            serializer.Serialize(fileStream, playlist);
         }
 
         private static GameMode ReadGameMode()

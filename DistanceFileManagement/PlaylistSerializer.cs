@@ -6,7 +6,7 @@ namespace DistanceFileManagement
 {
     public class PlaylistSerializer
     {
-        public void Serialize(Playlist playlist, Stream stream)
+        public void Serialize(Stream stream, Playlist playlist)
         {
             using XmlTextWriter writer = new XmlTextWriter(stream, Encoding.Unicode);
             writer.Formatting = Formatting.Indented;
