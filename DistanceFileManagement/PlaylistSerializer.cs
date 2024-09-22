@@ -8,8 +8,14 @@ namespace DistanceFileManagement
     {
         public void Serialize(Stream stream, Playlist playlist)
         {
-            using XmlTextWriter writer = new XmlTextWriter(stream, Encoding.Unicode);
-            writer.Formatting = Formatting.Indented;
+            XmlWriterSettings writerSettings = new XmlWriterSettings()
+            {
+                Encoding = Encoding.Unicode,
+                OmitXmlDeclaration = true,
+                Indent = true,
+            };
+
+            using XmlWriter writer = XmlWriter.Create(stream, writerSettings);
 
             WriteGameObjectElement(writer, playlist);
 
