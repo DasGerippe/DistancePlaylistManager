@@ -4,8 +4,8 @@
     {
         public string Name { get; set; } = string.Empty;
 
-        public GameMode GameMode { get; set; }
+        public GameMode? GameMode => Levels.FirstOrDefault()?.GameMode;
 
-        public IList<Level> Levels { get; init; } = [];
+        public IList<PlaylistLevel> Levels { get; init; } = [];
     }
 }

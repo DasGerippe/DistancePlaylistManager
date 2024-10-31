@@ -48,12 +48,11 @@ namespace DistanceWorkshop
             CollectionDetail collectionDetail = await steamRemoteStorage.GetCollectionDetail(collectionId);
             IEnumerable<string> collectionFileIds = collectionDetail.Files.Select(file => file.FileId);
             PublishedFileDetail[] fileDetails = await steamRemoteStorage.GetPublishedFileDetails(collectionFileIds);
-            List<Level> levels = GetLevelsFromFileDetails(fileDetails, gameMode);
+            List<PlaylistLevel> levels = GetLevelsFromFileDetails(fileDetails, gameMode);
 
             Playlist playlist = new Playlist
             {
                 Name = $"{collectionFileDetail.Title} ({gameMode})",
-                GameMode = gameMode,
                 Levels = levels,
             };
 
@@ -72,22 +71,20 @@ namespace DistanceWorkshop
                 throw new Exception("Collection wasn't created for Distance.");
         }
 
-        private List<Level> GetLevelsFromFileDetails(PublishedFileDetail[] publishedFileDetails, GameMode gameMode)
+        private List<PlaylistLevel> GetLevelsFromFileDetails(PublishedFileDetail[] publishedFileDetails, GameMode gameMode)
         {
             string serializedGameMode = gameMode.ToString();
-            List<Level> levels = publishedFileDetails
+            List<PlaylistLevel> levels = publishedFileDetails
                 .Where(file =>
                     file.ResultCode == 1 &&
                     file.CreatorAppId == DistanceAppId &&
                     file.ConsumerAppId == DistanceAppId &&
                     file.Tags.Any(tag => tag.Name == serializedGameMode))
-                .Select(file => new Level()
+                .Select(file => new PlaylistLevel
                 {
-                    Id = file.FileId,
-                    Name = file.Title,
-                    FileName = file.FileName,
-                    CreatorId = file.CreatorId,
-                    Source = LevelSource.Workshop,
+                    GameMode = gameMode,
+                    LevelName = file.Title,
+                    LevelPath = $"WorkshopFiles/{file.CreatorId}/{file.FileName}",
                 })
                 .ToList();
 

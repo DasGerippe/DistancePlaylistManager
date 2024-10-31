@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace DistanceFileManagement
 {
-    public class PlaylistSerializer
+    public sealed class PlaylistSerializer
     {
         public void Serialize(Stream stream, Playlist playlist)
         {
@@ -28,13 +28,13 @@ namespace DistanceFileManagement
             writer.WriteAttributeString("Name", "LevelPlaylist");
             writer.WriteAttributeString("GUID", "0");
 
-            WriteTransformElement(writer, playlist);
+            WriteTransformElement(writer);
             WriteLevelPlaylistElement(writer, playlist);
 
             writer.WriteEndElement();
         }
 
-        private void WriteTransformElement(XmlWriter writer, Playlist playlist)
+        private void WriteTransformElement(XmlWriter writer)
         {
             writer.WriteStartElement("Transform");
             writer.WriteAttributeString("Version", "0");
@@ -60,21 +60,12 @@ namespace DistanceFileManagement
 
         private void WriteLevelsElements(XmlWriter writer, Playlist playlist)
         {
-            string serializedGameMode = ((int)playlist.GameMode).ToString();
-
-            foreach (Level level in playlist.Levels)
+            foreach (PlaylistLevel level in playlist.Levels)
             {
-                writer.WriteElementString("GameMode", serializedGameMode);
-                writer.WriteElementString("LevelName", level.Name);
-                writer.WriteElementString("LevelPath", GetLevelPath(level));
+                writer.WriteElementString("GameMode", ((int)level.GameMode).ToString());
+                writer.WriteElementString("LevelName", level.LevelName);
+                writer.WriteElementString("LevelPath", level.LevelPath);
             }
-        }
-
-        private string GetLevelPath(Level level)
-        {
-            return level.Source != LevelSource.Workshop
-                ? $"{level.Source}Levels/{level.FileName}"
-                : $"{level.Source}Levels/{level.CreatorId}/{level.FileName}";
         }
     }
 }
