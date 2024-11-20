@@ -24,12 +24,22 @@ namespace DistancePlaylistManagerConsoleApp
             string playlistName = Console.ReadLine()!;
 
             DistanceWorkshopClient distanceWorkshopClient = new DistanceWorkshopClient(HttpClient);
-            Playlist playlist = await (isUrl
-                ? distanceWorkshopClient.CreatePlaylistFromCollection(collectionUrl!, gameMode)
-                : distanceWorkshopClient.CreatePlaylistFromCollection(collectionUrlOrId, gameMode));
+            WorkshopCollection collection = await (isUrl
+                ? distanceWorkshopClient.GetWorkshopCollection(collectionUrl!)
+                : distanceWorkshopClient.GetWorkshopCollection(collectionUrlOrId));
 
-            if (!string.IsNullOrEmpty(playlistName))
-                playlist.Name = playlistName;
+            Playlist playlist = new Playlist
+            {
+                Name = string.IsNullOrEmpty(playlistName) ? $"{collection.Name} ({gameMode})" : playlistName,
+                Levels = collection.Levels
+                    .Select(workshopLevel => new PlaylistLevel
+                    {
+                        GameMode = gameMode,
+                        LevelName = workshopLevel.Name,
+                        LevelPath = workshopLevel.GetLevelPath(),
+                    })
+                    .ToList(),
+            };
 
             PlaylistSerializer serializer = new PlaylistSerializer();
             DefaultPathsProvider pathsProvider = new DefaultPathsProvider();

@@ -19,7 +19,7 @@ namespace DistanceWorkshop
             _SteamWebApiClient = new SteamWebApiClient(httpClient);
         }
 
-        public Task<Playlist> CreatePlaylistFromCollection(Uri collectionUrl, GameMode gameMode)
+        public async Task<WorkshopCollection> GetWorkshopCollection(Uri collectionUrl)
         {
             bool isSteamWorkshopUrl =
                 collectionUrl.Host.Equals("steamcommunity.com", StringComparison.OrdinalIgnoreCase) &&
@@ -33,10 +33,10 @@ namespace DistanceWorkshop
                 throw new ArgumentException("The URL does not contain an id parameter!", nameof(collectionUrl));
 
             string collectionId = idMatch.Groups["Id"].Value;
-            return CreatePlaylistFromCollection(collectionId, gameMode);
+            return await GetWorkshopCollection(collectionId);
         }
 
-        public async Task<Playlist> CreatePlaylistFromCollection(string collectionId, GameMode gameMode)
+        public async Task<WorkshopCollection> GetWorkshopCollection(string collectionId)
         {
             ArgumentException.ThrowIfNullOrEmpty(collectionId);
 
@@ -48,15 +48,15 @@ namespace DistanceWorkshop
             CollectionDetail collectionDetail = await steamRemoteStorage.GetCollectionDetail(collectionId);
             IEnumerable<string> collectionFileIds = collectionDetail.Files.Select(file => file.FileId);
             PublishedFileDetail[] fileDetails = await steamRemoteStorage.GetPublishedFileDetails(collectionFileIds);
-            List<PlaylistLevel> levels = GetLevelsFromFileDetails(fileDetails, gameMode);
+            List<WorkshopLevel> workshopLevels = GetWorkshopLevelsFromFileDetails(fileDetails);
 
-            Playlist playlist = new Playlist
+            WorkshopCollection collection = new WorkshopCollection()
             {
-                Name = $"{collectionFileDetail.Title} ({gameMode})",
-                Levels = levels,
+                Name = collectionFileDetail.Title,
+                Levels = workshopLevels.AsReadOnly(),
             };
 
-            return playlist;
+            return collection;
         }
 
         private void VerifyCollectionFileDetail(PublishedFileDetail collectionFileDetail)
@@ -71,24 +71,39 @@ namespace DistanceWorkshop
                 throw new Exception("Collection wasn't created for Distance.");
         }
 
-        private List<PlaylistLevel> GetLevelsFromFileDetails(PublishedFileDetail[] publishedFileDetails, GameMode gameMode)
+        private List<WorkshopLevel> GetWorkshopLevelsFromFileDetails(PublishedFileDetail[] publishedFileDetails)
         {
-            string serializedGameMode = gameMode.ToString();
-            List<PlaylistLevel> levels = publishedFileDetails
-                .Where(file =>
-                    file.ResultCode == 1 &&
-                    file.CreatorAppId == DistanceAppId &&
-                    file.ConsumerAppId == DistanceAppId &&
-                    file.Tags.Any(tag => tag.Name == serializedGameMode))
-                .Select(file => new PlaylistLevel
+            List<WorkshopLevel> levels = publishedFileDetails
+                .Where(file => file is
                 {
-                    GameMode = gameMode,
-                    LevelName = file.Title,
-                    LevelPath = $"WorkshopFiles/{file.CreatorId}/{file.FileName}",
+                    ResultCode: 1,
+                    CreatorAppId: DistanceAppId,
+                    ConsumerAppId: DistanceAppId,
+                })
+                .Select(file => new WorkshopLevel
+                {
+                    Name = file.Title,
+                    FileName = file.FileName,
+                    CreatorId = file.CreatorId,
+                    GameModes = GetGameModesFromTags(file.Tags),
                 })
                 .ToList();
 
             return levels;
+        }
+
+        private IReadOnlyCollection<GameMode> GetGameModesFromTags(IEnumerable<Tag> tags)
+        {
+            List<GameMode> gameModes = new List<GameMode>();
+
+            IEnumerable<string> distinctTags = tags.Select(tag => tag.Name).Distinct();
+            foreach (string tag in distinctTags)
+            {
+                if (Enum.TryParse(tag, out GameMode gameMode))
+                    gameModes.Add(gameMode);
+            }
+
+            return gameModes.AsReadOnly();
         }
     }
 }
