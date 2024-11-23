@@ -6,6 +6,12 @@ namespace DistanceFileManagement
 {
     public sealed class PlaylistSerializer
     {
+        public void Serialize(string filePath, Playlist playlist)
+        {
+            using FileStream stream = File.Open(filePath, FileMode.Create, FileAccess.Write);
+            Serialize(stream, playlist);
+        }
+
         public void Serialize(Stream stream, Playlist playlist)
         {
             XmlWriterSettings writerSettings = new XmlWriterSettings()

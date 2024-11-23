@@ -5,6 +5,12 @@ namespace DistanceFileManagement
 {
     public sealed class PlaylistDeserializer
     {
+        public Playlist Deserialize(string filePath)
+        {
+            using FileStream stream = File.OpenRead(filePath);
+            return Deserialize(stream);
+        }
+
         public Playlist Deserialize(Stream stream)
         {
             XmlReaderSettings readerSettings = new XmlReaderSettings
