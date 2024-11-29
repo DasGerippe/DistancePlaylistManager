@@ -1,4 +1,4 @@
-﻿namespace DistanceFileManagement
+﻿namespace DataStoring
 {
     public interface IPathsProvider
     {

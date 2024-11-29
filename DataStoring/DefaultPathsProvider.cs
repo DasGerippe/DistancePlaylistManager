@@ -1,4 +1,4 @@
-﻿namespace DistanceFileManagement
+﻿namespace DataStoring
 {
     public class DefaultPathsProvider : IPathsProvider
     {

@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace DistanceFileManagement
+namespace DataStoring
 {
     public class XmlReaderException : Exception
     {

@@ -1,7 +1,7 @@
 ﻿using DataClasses;
 using System.Xml;
 
-namespace DistanceFileManagement
+namespace DataStoring
 {
     public sealed class PlaylistDeserializer
     {

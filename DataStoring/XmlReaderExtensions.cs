@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace DistanceFileManagement
+namespace DataStoring
 {
     internal static class XmlReaderExtensions
     {

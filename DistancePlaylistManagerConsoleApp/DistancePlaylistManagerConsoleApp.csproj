@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DistanceFileManagement\DistanceFileManagement.csproj" />
+    <ProjectReference Include="..\DataStoring\DataStoring.csproj" />
     <ProjectReference Include="..\DistanceWorkshop\DistanceWorkshop.csproj" />
   </ItemGroup>
 
