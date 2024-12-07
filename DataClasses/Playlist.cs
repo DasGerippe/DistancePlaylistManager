@@ -2,7 +2,7 @@
 {
     public class Playlist
     {
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; init; }
 
         public GameMode? GameMode => Levels.FirstOrDefault()?.GameMode;
 
