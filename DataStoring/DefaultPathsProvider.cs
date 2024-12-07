@@ -4,16 +4,24 @@
     {
         private const string LevelPlaylists = "LevelPlaylists";
 
+        private readonly char[] _ValidPathChars = [' ', '_', '.'];
+
         public string GetPlaylistFilePath(string playlistName)
         {
-            return GetDistancePath(LevelPlaylists, $"{playlistName}.xml");
+            char[] playlistFileNameChars = playlistName
+                .Where(nameChar => char.IsLetterOrDigit(nameChar) || _ValidPathChars.Contains(nameChar))
+                .ToArray();
+
+            string playlistFileName = new string(playlistFileNameChars);
+            string playlistFilePath = GetDistancePath(LevelPlaylists, $"{playlistFileName}.xml");
+            return playlistFilePath;
         }
 
-        private string GetDistancePath(params string[] subDirs)
+        private string GetDistancePath(params string[] subPaths)
         {
             string myDocumentsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string path = Path.Combine([myDocumentsFolderPath, "My Games", "Distance", .. subDirs]);
-            return path;
+            string distancePath = Path.Combine([myDocumentsFolderPath, "My Games", "Distance", .. subPaths]);
+            return distancePath;
         }
     }
 }
