@@ -6,6 +6,11 @@
 
         private readonly char[] _ValidPathChars = [' ', '_', '.'];
 
+        public string GetPlaylistsFolderPath()
+        {
+            return GetDistancePath(LevelPlaylists);
+        }
+
         public string GetPlaylistFilePath(string playlistName)
         {
             char[] playlistFileNameChars = playlistName
