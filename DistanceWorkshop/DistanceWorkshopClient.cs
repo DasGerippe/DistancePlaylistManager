@@ -33,7 +33,7 @@ namespace DistanceWorkshop
                 throw new ArgumentException("The URL does not contain an id parameter!", nameof(collectionUrl));
 
             string collectionId = idMatch.Groups["Id"].Value;
-            return await GetWorkshopCollection(collectionId);
+            return await GetWorkshopCollection(collectionId).ConfigureAwait(false);
         }
 
         public async Task<WorkshopCollection> GetWorkshopCollection(string collectionId)
@@ -42,12 +42,12 @@ namespace DistanceWorkshop
 
             SteamRemoteStorage steamRemoteStorage = _SteamWebApiClient.Get<SteamRemoteStorage>()!;
 
-            PublishedFileDetail collectionFileDetail = await steamRemoteStorage.GetPublishedFileDetail(collectionId);
+            PublishedFileDetail collectionFileDetail = await steamRemoteStorage.GetPublishedFileDetail(collectionId).ConfigureAwait(false);
             VerifyCollectionFileDetail(collectionFileDetail);
 
-            CollectionDetail collectionDetail = await steamRemoteStorage.GetCollectionDetail(collectionId);
+            CollectionDetail collectionDetail = await steamRemoteStorage.GetCollectionDetail(collectionId).ConfigureAwait(false);
             IEnumerable<string> collectionFileIds = collectionDetail.Files.Select(file => file.FileId);
-            PublishedFileDetail[] fileDetails = await steamRemoteStorage.GetPublishedFileDetails(collectionFileIds);
+            PublishedFileDetail[] fileDetails = await steamRemoteStorage.GetPublishedFileDetails(collectionFileIds).ConfigureAwait(false);
             List<WorkshopLevel> workshopLevels = GetWorkshopLevelsFromFileDetails(fileDetails);
 
             WorkshopCollection collection = new WorkshopCollection()

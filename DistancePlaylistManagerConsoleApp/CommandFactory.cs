@@ -66,7 +66,7 @@ namespace DistancePlaylistManagerConsoleApp
 
             collectionToPlaylistCommand.SetHandler(async (collection, playlist, gameMode, keepDuplicates) =>
                 {
-                    await AddCollectionLevelsToPlaylist(collection, playlist, gameMode, keepDuplicates);
+                    await AddCollectionLevelsToPlaylist(collection, playlist, gameMode, keepDuplicates).ConfigureAwait(false);
                 },
                 collectionOption,
                 playlistNameOption,
@@ -82,7 +82,7 @@ namespace DistancePlaylistManagerConsoleApp
         {
             try
             {
-                WorkshopCollection collection = await GetWorkshopCollection(collectionUrlOrId);
+                WorkshopCollection collection = await GetWorkshopCollection(collectionUrlOrId).ConfigureAwait(false);
 
                 if (string.IsNullOrEmpty(playlistName))
                     playlistName = GeneratePlaylistName(collection.Name, gameMode);
@@ -103,9 +103,10 @@ namespace DistancePlaylistManagerConsoleApp
         private async Task<WorkshopCollection> GetWorkshopCollection(string collectionUrlOrId)
         {
             bool isUrl = Uri.TryCreate(collectionUrlOrId, UriKind.Absolute, out Uri? collectionUrl);
-            return await (isUrl
+            Task<WorkshopCollection> getWorkshopCollectionTask = isUrl
                 ? _DistanceWorkshopClient.GetWorkshopCollection(collectionUrl!)
-                : _DistanceWorkshopClient.GetWorkshopCollection(collectionUrlOrId));
+                : _DistanceWorkshopClient.GetWorkshopCollection(collectionUrlOrId);
+            return await getWorkshopCollectionTask.ConfigureAwait(false);
         }
 
         private string GeneratePlaylistName(string collectionName, GameMode? gameMode)

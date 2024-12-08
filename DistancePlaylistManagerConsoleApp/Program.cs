@@ -21,10 +21,10 @@ namespace DistancePlaylistManagerConsoleApp
 
             if (args.Length > 0)
             {
-                return await rootCommand.InvokeAsync(args);
+                return await rootCommand.InvokeAsync(args).ConfigureAwait(false);
             }
 
-            await rootCommand.InvokeAsync("--help");
+            await rootCommand.InvokeAsync("--help").ConfigureAwait(false);
             while (true)
             {
                 string command = Console.ReadLine()!;
@@ -34,7 +34,7 @@ namespace DistancePlaylistManagerConsoleApp
 
                 try
                 {
-                    await rootCommand.InvokeAsync(command);
+                    await rootCommand.InvokeAsync(command).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
