@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DistancePlaylistManagerCons
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataStoring", "DataStoring\DataStoring.csproj", "{A35C34EC-B1F1-44EC-8333-A08D24F01346}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaylistManagement", "PlaylistManagement\PlaylistManagement.csproj", "{2AB76065-8484-4BF6-A9EB-5CC170CB845C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A35C34EC-B1F1-44EC-8333-A08D24F01346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A35C34EC-B1F1-44EC-8333-A08D24F01346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A35C34EC-B1F1-44EC-8333-A08D24F01346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AB76065-8484-4BF6-A9EB-5CC170CB845C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AB76065-8484-4BF6-A9EB-5CC170CB845C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AB76065-8484-4BF6-A9EB-5CC170CB845C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AB76065-8484-4BF6-A9EB-5CC170CB845C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
