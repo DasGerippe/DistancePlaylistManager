@@ -49,6 +49,9 @@ namespace DataStoring
             if (isRepositoryPlaylist)
                 throw new ArgumentException("The playlist already belongs to this repository.", nameof(playlist));
 
+            if (_PlaylistPathDictionary.Any(playlistPath => playlistPath.Key.Name.Equals(playlist.Name, StringComparison.OrdinalIgnoreCase)))
+                throw new ArgumentException("A playlist with the same name already exists.");
+
             string playlistFilePath = _PathsProvider.GetPlaylistFilePath(playlist.Name);
 
             Playlist? samePathPlaylist = _PlaylistPathDictionary
