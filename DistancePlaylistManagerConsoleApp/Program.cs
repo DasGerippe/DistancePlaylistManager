@@ -25,6 +25,8 @@ namespace DistancePlaylistManagerConsoleApp
             }
 
             await rootCommand.InvokeAsync("--help").ConfigureAwait(false);
+            Console.WriteLine("Enter exit/quit to leave the interactive command mode.");
+
             while (true)
             {
                 string command = Console.ReadLine()!;
