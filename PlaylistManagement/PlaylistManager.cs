@@ -12,9 +12,14 @@ namespace PlaylistManagement
             _PlaylistRepository = playlistRepository;
         }
 
+        public Playlist? GetPlaylist(string playlistName)
+        {
+            return _PlaylistRepository.GetAllPlaylists().FirstOrDefault(playlist => playlist.Name == playlistName);
+        }
+
         public Playlist GetOrCreatePlaylist(string playlistName)
         {
-            Playlist? playlist = _PlaylistRepository.GetAllPlaylists().FirstOrDefault(playlist => playlist.Name == playlistName);
+            Playlist? playlist = GetPlaylist(playlistName);
             if (playlist == null)
             {
                 playlist = new Playlist { Name = playlistName };
