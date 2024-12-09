@@ -1,30 +1,24 @@
 ﻿using DataStoring;
-using DistanceWorkshop;
+using DistancePlaylistManagerConsoleApp.Commands;
 using System.CommandLine;
-using PlaylistManagement;
 
 namespace DistancePlaylistManagerConsoleApp
 {
     internal class Program
     {
-        private static readonly HttpClient HttpClient = new HttpClient();
-
         static async Task<int> Main(string[] args)
         {
             IPathsProvider pathsProvider = new DefaultPathsProvider();
             IPlaylistRepository playlistRepository = new PlaylistFileRepository(pathsProvider);
-            PlaylistManager playlistManager = new PlaylistManager(playlistRepository);
-            DistanceWorkshopClient distanceWorkshopClient = new DistanceWorkshopClient(HttpClient);
 
-            CommandFactory commandFactory = new CommandFactory(playlistRepository, distanceWorkshopClient, playlistManager);
-            RootCommand rootCommand = commandFactory.CreateCommands();
+            Command commandTree = new DistancePlaylistManagerRootCommand(playlistRepository);
 
             if (args.Length > 0)
             {
-                return await rootCommand.InvokeAsync(args).ConfigureAwait(false);
+                return await commandTree.InvokeAsync(args).ConfigureAwait(false);
             }
 
-            await rootCommand.InvokeAsync("--help").ConfigureAwait(false);
+            await commandTree.InvokeAsync("--help").ConfigureAwait(false);
             Console.WriteLine("Enter exit/quit to leave the interactive command mode.");
 
             while (true)
@@ -36,7 +30,7 @@ namespace DistancePlaylistManagerConsoleApp
 
                 try
                 {
-                    await rootCommand.InvokeAsync(command).ConfigureAwait(false);
+                    await commandTree.InvokeAsync(command).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
