@@ -12,7 +12,7 @@ namespace PlaylistManagement
             GameMode.ReverseTag,
         }.AsReadOnly();
 
-        public void AddLevelsToPlaylist(Playlist playlist, IEnumerable<Level> levels, GameMode? gameMode, bool keepDuplicates)
+        public void AddLevelsToPlaylist(Playlist playlist, IEnumerable<Level> levels, GameMode? gameMode)
         {
             levels = gameMode.HasValue
                 ? levels.Where(level => level.GameModes.Contains(gameMode.Value))
@@ -24,10 +24,9 @@ namespace PlaylistManagement
                     GameMode = gameMode ?? GetPreferredGameMode(level),
                     LevelName = level.Name,
                     LevelPath = level.GetLevelPath(),
-                });
-
-            if (!keepDuplicates)
-                levelsToAdd = levelsToAdd.Distinct().Except(playlist.Levels);
+                })
+                .Distinct()
+                .Except(playlist.Levels);
 
             foreach (PlaylistLevel playlistLevel in levelsToAdd)
             {

@@ -32,26 +32,20 @@ namespace DistancePlaylistManagerConsoleApp.Commands.CollectionCommands
                 description: "Only levels that support the specified game mode will be added to the playlist.",
                 getDefaultValue: () => GameMode.Sprint);
 
-            Option<bool> keepDuplicatesOption = new Option<bool>(
-                name: "--keep-duplicates",
-                description: "Levels will be added to the playlist, even if they are already included.");
-
             AddArgument(collectionArgument);
             AddOption(playlistNameOption);
             AddOption(gameModeOption);
-            AddOption(keepDuplicatesOption);
 
-            this.SetHandler(async (collection, playlist, gameMode, keepDuplicates) =>
+            this.SetHandler(async (collection, playlist, gameMode) =>
                 {
-                    await AddCollectionLevelsToPlaylist(collection, playlist, gameMode, keepDuplicates).ConfigureAwait(false);
+                    await AddCollectionLevelsToPlaylist(collection, playlist, gameMode).ConfigureAwait(false);
                 },
                 (IValueDescriptor<string>)collectionArgument,
                 playlistNameOption,
-                gameModeOption,
-                keepDuplicatesOption);
+                gameModeOption);
         }
 
-        private async Task AddCollectionLevelsToPlaylist(string collectionUrlOrId, string playlistName, GameMode gameMode, bool keepDuplicates)
+        private async Task AddCollectionLevelsToPlaylist(string collectionUrlOrId, string playlistName, GameMode gameMode)
         {
             try
             {
@@ -64,7 +58,7 @@ namespace DistancePlaylistManagerConsoleApp.Commands.CollectionCommands
                 Playlist playlist = playlistManager.GetOrCreatePlaylist(playlistName);
 
                 PlaylistLevelAdder levelAdder = new PlaylistLevelAdder();
-                levelAdder.AddLevelsToPlaylist(playlist, collection.Levels, gameMode, keepDuplicates);
+                levelAdder.AddLevelsToPlaylist(playlist, collection.Levels, gameMode);
 
                 _PlaylistRepository.Update(playlist);
 
