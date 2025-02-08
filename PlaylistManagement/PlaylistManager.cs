@@ -14,7 +14,7 @@ namespace PlaylistManagement
 
         public Playlist? GetPlaylist(string playlistName)
         {
-            return _PlaylistRepository.GetAllPlaylists().FirstOrDefault(playlist => playlist.Name == playlistName);
+            return _PlaylistRepository.GetAllPlaylists().FirstOrDefault(playlist => playlist.Name.Equals(playlistName, StringComparison.OrdinalIgnoreCase));
         }
 
         public Playlist GetOrCreatePlaylist(string playlistName)
