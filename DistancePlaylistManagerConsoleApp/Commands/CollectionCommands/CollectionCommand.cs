@@ -67,6 +67,8 @@ namespace DistancePlaylistManagerConsoleApp.Commands.CollectionCommands
                 levelAdder.AddLevelsToPlaylist(playlist, collection.Levels, gameMode, keepDuplicates);
 
                 _PlaylistRepository.Update(playlist);
+
+                Console.WriteLine($"Successfully added levels from collection '{collection.Name}' to playlist '{playlistName}'.");
             }
             catch (Exception ex)
             {

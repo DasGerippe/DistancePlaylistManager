@@ -43,6 +43,8 @@ namespace DistancePlaylistManagerConsoleApp.Commands.PlaylistCommands
             shuffler.ShufflePlaylist(playlist);
 
             _PlaylistRepository.Update(playlist);
+
+            Console.WriteLine($"Successfully shuffled playlist '{playlistName}'.");
         }
     }
 }

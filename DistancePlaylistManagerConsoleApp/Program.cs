@@ -23,6 +23,7 @@ namespace DistancePlaylistManagerConsoleApp
 
             while (true)
             {
+                Console.WriteLine();
                 string command = Console.ReadLine()!;
                 if (command.Equals("exit", StringComparison.CurrentCultureIgnoreCase) ||
                     command.Equals("quit", StringComparison.CurrentCultureIgnoreCase))
