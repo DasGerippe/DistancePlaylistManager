@@ -2,51 +2,47 @@
 
 A tool for the racing game Distance that offers advanced playlist management features.
 
-## Current Features
+## Features
 
-- Create a playlist with the levels from a workshop collection.
-
-## Planned Features
-
-- Add levels from a workshop collection to an existing playlist.
+- Retrieve the levels of a workshop collection and add them to a new or existing playlist.
 - Randomize levels in a playlist.
-- Remove duplicate levels from a playlist.
-- Simple playlist management:
-  - create new
-  - copy
-  - rename
-  - delete
-- Advanced playlist management (probably implemented with a GUI):
-  - Add or insert levels to a playlist.
-  - Remove levels from a playlist.
-  - Manually order levels in a playlist.
-- GUI
 
-I'm also open to feature requests, though I wont promise implementing any of the requested or planned features.
-
-## How To
-
-### Preparation
+## How To Use
 
 Downloads can be found on the [Releases](https://github.com/DasGerippe/DistancePlaylistManager/releases) page.
 
-If you don't want to install anything, download the self-contained DistancePlaylistManager.exe for your operating system and run it.
+The tool works like a classic command line tool, meaning you give it a command which specifies what the tool should do. Commands can be supplied in two ways:
 
-***OR***
+  - Run (double-click) the tool and enter your command in the interactive mode. (The rest of the documentation assumes this method.)
+  - Call the tool from a command line/script/... and pass your comamnd as an argument.
 
-If you don't have it installed already, download and install the [.NET 8 runtime](https://dotnet.microsoft.com/en-us/download). Next, download the DistancePlaylistManager.zip, extract it to any location, and execute the DistancePlaylistManager.exe.
+## Commands
 
-### Usage
+Commands can have `<argument>`s that are required and/or `[option]`s that are... *option*al. When an argument contains spaces, it needs to be enclosed in "double quotes".
 
-Once the console window has opened, simply enter the ID or URL of a Distance workshop collection, the game mode, and optionally a name for the playlist.
+### collection
 
-The tool will collect all the information necessary and create a playlist file in your \Distance\LevelPlaylists folder.
+- Syntax: `collection <collection-url-or-id> [--playlist <name>] [--gamemode <mode>]`
+- Arguments/Options:
+  - `<collection-url-or-id>`: The URL or Steam ID of a workshop collection.
+  - `[--playlist <name>]`: The name of the playlist to which the levels are added. If omitted, the collection name and game mode are used to generate a name.
+  - `[--gamemode <mode>]`: Only levels that support the specified game mode will be added to the playlist. Possible parameter values are Sprint, Challenge, Stunt, or ReverseTag. Default is Sprint.
+- Examples:
+  - `collection 2799461592`
+    - Retrieves all levels from the collection "Competitive Levels" and adds them to the playlist "Competitive Levels (Sprint)".
+  - `collection 2087489130 --playlist "Air Control Challenges" --gamemode Challenge`
+    - Retrieves all Challenge levels from the collection "All air control style maps v2" and adds them to the playlist "Air Control Challenges".
 
-You will still need to subscribe to the collection manually.
+### playlist shuffle
 
-**To those using Linux:** I have only tested this tool on Windows, though it *might* work on Linux as well. If you tried using it on Linux, let me know how it went.
+- Syntax: `playlist shuffle <playlist>`
+- Arguments/Options:
+  - `<playlist>`: The name of the playlist to be shuffled.
+- Examples:
+  - `playlist shuffle Favorites`
+  - `playlist shuffle "Competitive Levels"`
 
-### Tips and Tricks... or something like that
+## Additional Notes
 
 Distance seems to (re)load your playlists in the following situations:
 
@@ -56,4 +52,4 @@ Distance seems to (re)load your playlists in the following situations:
 
 Keep that in mind if you're using the tool while Distance is running.
 
-Also, I had no problems with cloud sync when using the tool, whether Distance was running or not. Though I suspect this will change with future features like renaming or deleting... But that's a problem future-me will have to figure out.
+Also, I had no problems with cloud sync when using the tool, whether Distance was running or not.
