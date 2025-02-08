@@ -55,7 +55,7 @@ namespace DataStoring
             string playlistFilePath = _PathsProvider.GetPlaylistFilePath(playlist.Name);
 
             Playlist? samePathPlaylist = _PlaylistPathDictionary
-                .Where(playlistPath => playlistPath.Value == playlistFilePath)
+                .Where(playlistPath => playlistPath.Value.Equals(playlistFilePath, StringComparison.OrdinalIgnoreCase))
                 .Select(playlistPath => playlistPath.Key)
                 .FirstOrDefault();
 
